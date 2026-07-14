@@ -17,24 +17,30 @@ class TestChartCategoryCol:
     """Tests for _chart_category_col auto-detection."""
 
     def test_datetime_first(self) -> None:
-        df = pd.DataFrame({
-            "Date": pd.date_range("2026-01-01", periods=5),
-            "Value": [1, 2, 3, 4, 5],
-        })
+        df = pd.DataFrame(
+            {
+                "Date": pd.date_range("2026-01-01", periods=5),
+                "Value": [1, 2, 3, 4, 5],
+            }
+        )
         assert _chart_category_col(df) == "Date"
 
     def test_string_fallback(self) -> None:
-        df = pd.DataFrame({
-            "Name": ["A", "B", "C"],
-            "Score": [10, 20, 30],
-        })
+        df = pd.DataFrame(
+            {
+                "Name": ["A", "B", "C"],
+                "Score": [10, 20, 30],
+            }
+        )
         assert _chart_category_col(df) == "Name"
 
     def test_first_column_fallback(self) -> None:
-        df = pd.DataFrame({
-            "X": [1, 2, 3],
-            "Y": [4, 5, 6],
-        })
+        df = pd.DataFrame(
+            {
+                "X": [1, 2, 3],
+                "Y": [4, 5, 6],
+            }
+        )
         assert _chart_category_col(df) == "X"
 
 
@@ -42,11 +48,13 @@ class TestNumericCols:
     """Tests for _numeric_cols helper."""
 
     def test_filters_numeric(self) -> None:
-        df = pd.DataFrame({
-            "Name": ["A", "B"],
-            "Value": [10, 20],
-            "Count": [5, 8],
-        })
+        df = pd.DataFrame(
+            {
+                "Name": ["A", "B"],
+                "Value": [10, 20],
+                "Count": [5, 8],
+            }
+        )
         cols = _numeric_cols(df, "Name")
         assert "Value" in cols
         assert "Count" in cols
@@ -57,8 +65,9 @@ class TestChartElement:
     """Tests for ChartElement."""
 
     def test_measure_returns_reasonable_size(self, df_simple: pd.DataFrame) -> None:
-        el = ChartElement(df_simple, chart_type="column",
-                          category_col="Product", value_cols=["Sales"])
+        el = ChartElement(
+            df_simple, chart_type="column", category_col="Product", value_cols=["Sales"]
+        )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
         assert rows > 0
         assert cols > 0
@@ -85,8 +94,10 @@ class TestChartElement:
         ws = wm.add_sheet("Chart")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = ChartElement(
-            df_simple, chart_type="column",
-            category_col="Product", value_cols=["Sales"],
+            df_simple,
+            chart_type="column",
+            category_col="Product",
+            value_cols=["Sales"],
             title="Sales by Product",
         )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
@@ -101,7 +112,8 @@ class TestChartElement:
         ws = wm.add_sheet("Line")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = ChartElement(
-            df_time_series, chart_type="line",
+            df_time_series,
+            chart_type="line",
             title="Time Series",
         )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
@@ -116,8 +128,10 @@ class TestChartElement:
         ws = wm.add_sheet("Pie")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = ChartElement(
-            df_simple, chart_type="pie",
-            category_col="Product", value_cols=["Sales"],
+            df_simple,
+            chart_type="pie",
+            category_col="Product",
+            value_cols=["Sales"],
         )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
         el.render(wm, ws, grid.place(0, 0, rows=rows, cols=cols), THEME_BUSINESS_BLUE)
@@ -133,8 +147,10 @@ class TestChartElement:
         ws = wm.add_sheet("MPL")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = ChartElement(
-            df_simple, chart_type="column",
-            category_col="Product", value_cols=["Sales"],
+            df_simple,
+            chart_type="column",
+            category_col="Product",
+            value_cols=["Sales"],
             backend="matplotlib",
         )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
@@ -150,7 +166,8 @@ class TestChartElement:
         ws = wm.add_sheet("MPL_Line")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = ChartElement(
-            df_time_series, chart_type="line",
+            df_time_series,
+            chart_type="line",
             backend="matplotlib",
         )
         rows, cols = el.measure(THEME_BUSINESS_BLUE)

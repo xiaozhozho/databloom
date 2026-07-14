@@ -82,10 +82,10 @@ class TestGridPlacement:
 
     def test_first_placement_starts_at_margins(self, grid: Grid) -> None:
         pos = grid.place(logical_row=0, logical_col=0, rows=5, cols=8)
-        assert pos.start_row == 2   # margin_top = 2
-        assert pos.start_col == 1   # margin_left = 1
-        assert pos.end_row == 6     # start_row + 5 - 1
-        assert pos.end_col == 8     # start_col + 8 - 1
+        assert pos.start_row == 2  # margin_top = 2
+        assert pos.start_col == 1  # margin_left = 1
+        assert pos.end_row == 6  # start_row + 5 - 1
+        assert pos.end_col == 8  # start_col + 8 - 1
         assert pos.row_count == 5
         assert pos.col_count == 8
 
@@ -144,6 +144,7 @@ class TestGridPlacement:
 
     def test_write_column_widths(self) -> None:
         """Verify write_column_widths sets columns on a mock sheet."""
+
         class MockSheet:
             def __init__(self) -> None:
                 self.set_calls: list[tuple[int, int, float]] = []
@@ -169,8 +170,12 @@ class TestElementPlacement:
 
     def test_fields(self) -> None:
         ep = ElementPlacement(
-            start_row=2, start_col=1, end_row=7, end_col=8,
-            row_count=6, col_count=8,
+            start_row=2,
+            start_col=1,
+            end_row=7,
+            end_col=8,
+            row_count=6,
+            col_count=8,
         )
         assert ep.start_row == 2
         assert ep.end_row == 7

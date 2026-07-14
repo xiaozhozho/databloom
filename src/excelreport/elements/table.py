@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import pandas as pd
 
-from excelreport.core.grid import ElementPlacement, Grid
+from excelreport.core.grid import ElementPlacement
 from excelreport.elements.base import BaseElement
 from excelreport.theme.base import Theme
 
@@ -113,8 +113,8 @@ class TableElement(BaseElement):
         placement: ElementPlacement,
         theme: Theme,
     ) -> None:
-        wb = getattr(workbook, "wb")
-        cache = getattr(workbook, "format_cache")
+        wb = workbook.wb
+        cache = workbook.format_cache
         ts = theme.table
         df = self.dataframe
         ncols = len(df.columns)
@@ -140,8 +140,10 @@ class TableElement(BaseElement):
                 valign="vcenter",
             )
             sheet.merge_range(  # type: ignore[union-attr]
-                current_row, start_col,
-                current_row, end_col,
+                current_row,
+                start_col,
+                current_row,
+                end_col,
                 self.title,
                 title_fmt,
             )
@@ -202,7 +204,9 @@ class TableElement(BaseElement):
         col_fmts: dict[int, object] = {}
         for i, col_name in enumerate(df.columns):
             excel_col = start_col + i
-            num_fmt = self.column_formats.get(str(col_name)) or _infer_dtype_format(df[col_name], theme)
+            num_fmt = self.column_formats.get(str(col_name)) or _infer_dtype_format(
+                df[col_name], theme
+            )
             if num_fmt:
                 col_fmts[excel_col] = cache.get(
                     wb,

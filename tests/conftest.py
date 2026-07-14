@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import tempfile
+from collections.abc import Generator
 from pathlib import Path
-from typing import Generator
 
 import pandas as pd
 import pytest
@@ -82,8 +82,18 @@ def df_mixed_types() -> pd.DataFrame:
     return pd.DataFrame(
         {
             "Date": pd.date_range("2026-07-01", periods=10, freq="D"),
-            "Category": ["Electronics", "Clothing", "Food", "Electronics", "Clothing",
-                         "Food", "Electronics", "Clothing", "Food", "Electronics"],
+            "Category": [
+                "Electronics",
+                "Clothing",
+                "Food",
+                "Electronics",
+                "Clothing",
+                "Food",
+                "Electronics",
+                "Clothing",
+                "Food",
+                "Electronics",
+            ],
             "Product": [f"Item-{i:02d}" for i in range(10)],
             "Quantity": [5, 12, 8, 3, 15, 9, 7, 11, 6, 4],
             "UnitPrice": [299.99, 49.50, 12.99, 399.00, 59.90, 15.50, 349.99, 45.00, 18.90, 279.00],
@@ -121,7 +131,13 @@ def df_kpi() -> pd.DataFrame:
     """KPI-style summary data."""
     return pd.DataFrame(
         {
-            "Metric": ["Total Revenue", "Total Cost", "Net Profit", "Profit Margin", "Customer Count"],
+            "Metric": [
+                "Total Revenue",
+                "Total Cost",
+                "Net Profit",
+                "Profit Margin",
+                "Customer Count",
+            ],
             "Current": [520000, 310000, 210000, 0.404, 1250],
             "Previous": [480000, 290000, 190000, 0.396, 1180],
             "Change%": [0.083, 0.069, 0.105, 0.020, 0.059],

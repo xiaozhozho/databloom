@@ -90,6 +90,7 @@ class TestReportBuilder:
         r.build(temp_xlsx_path)
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         assert "Sheet1" in wb.sheetnames
         assert "Sheet2" in wb.sheetnames
@@ -114,20 +115,26 @@ class TestReportBuilder:
         r.add_sheet("Analysis")
         r.add_title("Q3 2026 Sales Analysis")
         r.add_subtitle("Executive Summary")
-        r.add_paragraph("This report provides an overview of Q3 2026 sales performance across all regions.")
+        r.add_paragraph(
+            "This report provides an overview of Q3 2026 sales performance across all regions."
+        )
         r.add_table(
-            pd.DataFrame({
-                "Region": ["North", "South", "East", "West"],
-                "Revenue": [125000, 98000, 142000, 87000],
-                "Growth": [0.12, 0.08, 0.15, 0.05],
-            }),
+            pd.DataFrame(
+                {
+                    "Region": ["North", "South", "East", "West"],
+                    "Revenue": [125000, 98000, 142000, 87000],
+                    "Growth": [0.12, 0.08, 0.15, 0.05],
+                }
+            ),
             title="Regional Performance",
         )
         r.add_chart(
-            pd.DataFrame({
-                "Month": ["Jul", "Aug", "Sep"],
-                "Revenue": [42000, 45000, 48000],
-            }),
+            pd.DataFrame(
+                {
+                    "Month": ["Jul", "Aug", "Sep"],
+                    "Revenue": [42000, 45000, 48000],
+                }
+            ),
             type="line",
             category_col="Month",
             value_cols=["Revenue"],

@@ -9,7 +9,6 @@ The Grid system uses 0-indexed logical coordinates:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Sequence
 
 
 @dataclass
@@ -26,8 +25,8 @@ class ElementPlacement:
 
     start_row: int
     start_col: int
-    end_row: int   # inclusive
-    end_col: int   # inclusive
+    end_row: int  # inclusive
+    end_col: int  # inclusive
     row_count: int  # how many rows the element occupies
     col_count: int  # how many cols the element occupies
 
@@ -69,15 +68,11 @@ class _RowTracker:
         """Total Excel rows consumed by all placements."""
         if not self._entries:
             return 0
-        return max(
-            self._compute_offset(lr) + h for lr, h in self._entries
-        )
+        return max(self._compute_offset(lr) + h for lr, h in self._entries)
 
     def _compute_offset(self, target_logical_row: int) -> int:
         """Sum heights of entries with logical_row < target."""
-        return sum(
-            h for lr, h in self._entries if lr < target_logical_row
-        )
+        return sum(h for lr, h in self._entries if lr < target_logical_row)
 
 
 class Grid:

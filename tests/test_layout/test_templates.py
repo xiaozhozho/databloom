@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
-import pytest
 
 from excelreport.core.workbook import WorkbookManager
 from excelreport.layout.engine import LayoutEngine
@@ -35,6 +34,7 @@ class TestLayoutSimple:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         assert "Sheet1" in wb.sheetnames
 
@@ -61,8 +61,13 @@ class TestLayoutSummaryDetail:
         detail = pd.DataFrame({"Product": ["A", "B", "C"], "Qty": [5, 8, 3]})
 
         layout_summary_detail(
-            engine, "Monthly Report", summary, chart, detail,
-            chart_type="column", chart_title="Sales Trend",
+            engine,
+            "Monthly Report",
+            summary,
+            chart,
+            detail,
+            chart_type="column",
+            chart_title="Sales Trend",
         )
 
         wm = WorkbookManager(temp_xlsx_path)
@@ -70,6 +75,7 @@ class TestLayoutSummaryDetail:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         assert "Overview" in wb.sheetnames
         assert "Details" in wb.sheetnames
@@ -125,6 +131,7 @@ class TestLayoutReport:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         assert "Report" in wb.sheetnames
 

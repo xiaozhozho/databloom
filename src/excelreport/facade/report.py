@@ -78,6 +78,7 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.text import TitleElement
+
         self._engine.place_row(TitleElement(text))
         return self
 
@@ -91,6 +92,7 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.text import SubtitleElement
+
         self._engine.place_row(SubtitleElement(text))
         return self
 
@@ -104,6 +106,7 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.text import ParagraphElement
+
         self._engine.place_row(ParagraphElement(text))
         return self
 
@@ -125,9 +128,8 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.table import TableElement
-        self._engine.place_row(
-            TableElement(df, title=title, column_formats=column_formats)
-        )
+
+        self._engine.place_row(TableElement(df, title=title, column_formats=column_formats))
         return self
 
     def add_chart(
@@ -154,6 +156,7 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.chart import ChartElement
+
         self._engine.place_row(
             ChartElement(
                 df,
@@ -184,6 +187,7 @@ class Report:
             ``self`` for chaining.
         """
         from excelreport.elements.image import ImageElement
+
         self._engine.place_row(ImageElement(image_path, scale_x=scale_x, scale_y=scale_y))
         return self
 

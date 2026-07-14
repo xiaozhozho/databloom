@@ -57,8 +57,16 @@ THEME_BUSINESS_BLUE = Theme(
         font=FontSpec(name="Arial", size=10, color="#444444"),
     ),
     chart_colors=[
-        "#2F5496", "#ED7D31", "#70AD47", "#FFC000", "#5B9BD5",
-        "#A5A5A5", "#264478", "#BF8F00", "#4472C4", "#FF0000",
+        "#2F5496",
+        "#ED7D31",
+        "#70AD47",
+        "#FFC000",
+        "#5B9BD5",
+        "#A5A5A5",
+        "#264478",
+        "#BF8F00",
+        "#4472C4",
+        "#FF0000",
     ],
     accent_color="#2F5496",
 )
@@ -89,8 +97,16 @@ THEME_FRESH_GREEN = Theme(
         font=FontSpec(name="Calibri", size=10, color="#4A5A3B"),
     ),
     chart_colors=[
-        "#548235", "#A9D18E", "#375623", "#70AD47", "#C5E0B4",
-        "#ED7D31", "#5B9BD5", "#FFC000", "#BF8F00", "#264478",
+        "#548235",
+        "#A9D18E",
+        "#375623",
+        "#70AD47",
+        "#C5E0B4",
+        "#ED7D31",
+        "#5B9BD5",
+        "#FFC000",
+        "#BF8F00",
+        "#264478",
     ],
     accent_color="#548235",
 )
@@ -119,8 +135,16 @@ THEME_TECH_DARK = Theme(
         font=FontSpec(name="Segoe UI", size=10, color="#BDBDBD"),
     ),
     chart_colors=[
-        "#00BCD4", "#FF6E40", "#69F0AE", "#FFD740", "#40C4FF",
-        "#B388FF", "#00B8D4", "#FF9100", "#448AFF", "#FF5252",
+        "#00BCD4",
+        "#FF6E40",
+        "#69F0AE",
+        "#FFD740",
+        "#40C4FF",
+        "#B388FF",
+        "#00B8D4",
+        "#FF9100",
+        "#448AFF",
+        "#FF5252",
     ],
     accent_color="#00BCD4",
 )
@@ -149,8 +173,16 @@ THEME_WARM_ORANGE = Theme(
         font=FontSpec(name="Tahoma", size=10, color="#5C3A1E"),
     ),
     chart_colors=[
-        "#ED7D31", "#70AD47", "#2F5496", "#FFC000", "#5B9BD5",
-        "#BF8F00", "#A5A5A5", "#4472C4", "#548235", "#264478",
+        "#ED7D31",
+        "#70AD47",
+        "#2F5496",
+        "#FFC000",
+        "#5B9BD5",
+        "#BF8F00",
+        "#A5A5A5",
+        "#4472C4",
+        "#548235",
+        "#264478",
     ],
     accent_color="#ED7D31",
 )
@@ -179,8 +211,16 @@ THEME_MINIMAL_GRAY = Theme(
         font=FontSpec(name="Helvetica", size=10, color="#555555"),
     ),
     chart_colors=[
-        "#555555", "#999999", "#777777", "#BBBBBB", "#333333",
-        "#888888", "#666666", "#AAAAAA", "#444444", "#DDDDDD",
+        "#555555",
+        "#999999",
+        "#777777",
+        "#BBBBBB",
+        "#333333",
+        "#888888",
+        "#666666",
+        "#AAAAAA",
+        "#444444",
+        "#DDDDDD",
     ],
     accent_color="#555555",
 )
@@ -209,8 +249,16 @@ THEME_CLASSIC_WHITE = Theme(
         font=FontSpec(name="Arial", size=10, color="#000000"),
     ),
     chart_colors=[
-        "#000000", "#333333", "#666666", "#999999", "#CCCCCC",
-        "#555555", "#777777", "#AAAAAA", "#444444", "#DDDDDD",
+        "#000000",
+        "#333333",
+        "#666666",
+        "#999999",
+        "#CCCCCC",
+        "#555555",
+        "#777777",
+        "#AAAAAA",
+        "#444444",
+        "#DDDDDD",
     ],
     accent_color="#000000",
 )
@@ -241,9 +289,7 @@ def get_theme(name: str) -> Theme:
     """
     if name not in _THEME_REGISTRY:
         available = ", ".join(_THEME_REGISTRY)
-        raise KeyError(
-            f"Theme {name!r} not found. Available: {available}"
-        )
+        raise KeyError(f"Theme {name!r} not found. Available: {available}")
     return _THEME_REGISTRY[name]
 
 

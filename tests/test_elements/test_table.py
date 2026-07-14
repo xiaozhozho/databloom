@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
-import pytest
 
 from excelreport.core.grid import Grid
 from excelreport.core.workbook import WorkbookManager
@@ -90,6 +89,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Data"]
 
@@ -114,8 +114,9 @@ class TestTableElement:
         grid = Grid(margin_top=0, margin_left=0, spacing=0)
         el = TableElement(df)
         rows, cols = el.measure(THEME_BUSINESS_BLUE)
-        el.render(wm, ws, grid.place(0, 0, rows=max(rows, 1), cols=max(cols, 1)),
-                  THEME_BUSINESS_BLUE)
+        el.render(
+            wm, ws, grid.place(0, 0, rows=max(rows, 1), cols=max(cols, 1)), THEME_BUSINESS_BLUE
+        )
         wm.close()
         assert temp_xlsx_path.exists()
 
@@ -129,6 +130,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Single"]
         assert ws_r["A1"].value == "Name"
@@ -147,6 +149,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Fmt"]
         assert ws_r["A2"].value == 1.23456  # value preserved
@@ -164,6 +167,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Alt"]
         # Verify both data rows have solid fills
@@ -185,6 +189,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Large"]
         assert ws_r["A1"].value == "Date"
@@ -202,6 +207,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Wide"]
         # 13 columns (Region + 4*3 Qs)
@@ -219,6 +225,7 @@ class TestTableElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Dark"]
         assert ws_r["A1"].value == "Product"  # Header present

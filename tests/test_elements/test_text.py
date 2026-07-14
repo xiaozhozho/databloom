@@ -4,9 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
-from excelreport.core.grid import ElementPlacement, Grid
+from excelreport.core.grid import Grid
 from excelreport.core.workbook import WorkbookManager
 from excelreport.elements.text import ParagraphElement, SubtitleElement, TitleElement
 from excelreport.theme.presets import THEME_BUSINESS_BLUE, THEME_FRESH_GREEN
@@ -37,6 +35,7 @@ class TestTitleElement:
 
         # Read back with openpyxl
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Sheet1"]
         assert ws_r["A1"].value == "Q3 Sales Report"
@@ -60,6 +59,7 @@ class TestTitleElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Data"]
         assert ws_r["A1"].value == "Main Title"
@@ -91,6 +91,7 @@ class TestSubtitleElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["S"]
         assert ws_r["A1"].font.size == 20
@@ -123,6 +124,7 @@ class TestParagraphElement:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["P"]
         assert ws_r["A1"].value == "This is a note."

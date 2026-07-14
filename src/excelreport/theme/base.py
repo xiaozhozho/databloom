@@ -113,10 +113,20 @@ class Theme:
     title: TitleStyle = field(default_factory=TitleStyle)
     subtitle: SubtitleStyle = field(default_factory=SubtitleStyle)
     paragraph: ParagraphStyle = field(default_factory=ParagraphStyle)
-    chart_colors: list[str] = field(default_factory=lambda: [
-        "#2F5496", "#ED7D31", "#70AD47", "#FFC000", "#5B9BD5",
-        "#A5A5A5", "#264478", "#BF8F00", "#4472C4", "#FF0000",
-    ])
+    chart_colors: list[str] = field(
+        default_factory=lambda: [
+            "#2F5496",
+            "#ED7D31",
+            "#70AD47",
+            "#FFC000",
+            "#5B9BD5",
+            "#A5A5A5",
+            "#264478",
+            "#BF8F00",
+            "#4472C4",
+            "#FF0000",
+        ]
+    )
     accent_color: str = "#2F5496"
     sheet_margin_rows: int = 2
     sheet_margin_cols: int = 1

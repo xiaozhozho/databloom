@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import io
 import tempfile
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal
@@ -10,7 +9,7 @@ from typing import TYPE_CHECKING, Literal
 import numpy as np
 import pandas as pd
 
-from excelreport.core.grid import ElementPlacement, Grid
+from excelreport.core.grid import ElementPlacement
 from excelreport.elements.base import BaseElement
 from excelreport.theme.base import Theme
 
@@ -36,11 +35,10 @@ def _chart_category_col(df: pd.DataFrame) -> str:
 def _numeric_cols(df: pd.DataFrame, category_col: str) -> list[str]:
     """Return all numeric column names except the category column."""
     return [
-        str(c) for c in df.columns
+        str(c)
+        for c in df.columns
         if str(c) != category_col and pd.api.types.is_numeric_dtype(df[c])
-    ] or [
-        str(c) for c in df.columns if str(c) != category_col
-    ]
+    ] or [str(c) for c in df.columns if str(c) != category_col]
 
 
 class ChartElement(BaseElement):
@@ -136,7 +134,7 @@ class ChartElement(BaseElement):
         theme: Theme,
     ) -> None:
         """Render using xlsxwriter's native chart engine."""
-        wb = getattr(workbook, "wb")
+        wb = workbook.wb
 
         chart = wb.add_chart({"type": self.chart_type})
         chart.set_size({"width": self.chart_width, "height": self.chart_height})
@@ -169,21 +167,27 @@ class ChartElement(BaseElement):
         # Add series
         for vi, vc in enumerate(self.value_cols):
             color = chart_colors[vi % len(chart_colors)]
-            chart.add_series({
-                "name": vc,
-                "categories": [
-                    sheet.name,  # type: ignore[union-attr]
-                    data_start_row + 1, data_start_col,
-                    data_start_row + len(df), data_start_col,
-                ],
-                "values": [
-                    sheet.name,  # type: ignore[union-attr]
-                    data_start_row + 1, data_start_col + 1 + vi,
-                    data_start_row + len(df), data_start_col + 1 + vi,
-                ],
-                "fill": {"color": color},
-                "line": {"color": color},
-            })
+            chart.add_series(
+                {
+                    "name": vc,
+                    "categories": [
+                        sheet.name,  # type: ignore[union-attr]
+                        data_start_row + 1,
+                        data_start_col,
+                        data_start_row + len(df),
+                        data_start_col,
+                    ],
+                    "values": [
+                        sheet.name,  # type: ignore[union-attr]
+                        data_start_row + 1,
+                        data_start_col + 1 + vi,
+                        data_start_row + len(df),
+                        data_start_col + 1 + vi,
+                    ],
+                    "fill": {"color": color},
+                    "line": {"color": color},
+                }
+            )
 
         sheet.insert_chart(  # type: ignore[union-attr]
             placement.start_row, placement.start_col, chart
@@ -198,6 +202,7 @@ class ChartElement(BaseElement):
     ) -> None:
         """Render chart as a matplotlib image and insert into the sheet."""
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         from matplotlib.ticker import FuncFormatter
@@ -214,10 +219,8 @@ class ChartElement(BaseElement):
         fig.patch.set_facecolor("#FFFFFF")
 
         if self.title:
-            ax.set_title(self.title, fontsize=14, fontweight="bold",
-                         color=theme.title.font.color)
+            ax.set_title(self.title, fontsize=14, fontweight="bold", color=theme.title.font.color)
 
-        cat_values: list = list(range(len(df)))
         cat_labels = [str(v) for v in df[self.category_col]]
 
         for vi, vc in enumerate(self.value_cols):
@@ -234,12 +237,18 @@ class ChartElement(BaseElement):
                 ax.set_yticks(np.arange(len(df)))
                 ax.set_yticklabels(cat_labels)
             elif self.chart_type == "line":
-                ax.plot(cat_labels, values, marker="o", color=color,
-                        linewidth=2, markersize=4, label=vc)
+                ax.plot(
+                    cat_labels, values, marker="o", color=color, linewidth=2, markersize=4, label=vc
+                )
                 ax.tick_params(axis="x", rotation=45)
             elif self.chart_type == "pie":
-                ax.pie(values, labels=cat_labels, autopct="%1.1f%%",
-                       colors=chart_colors[: len(df)], startangle=90)
+                ax.pie(
+                    values,
+                    labels=cat_labels,
+                    autopct="%1.1f%%",
+                    colors=chart_colors[: len(df)],
+                    startangle=90,
+                )
                 ax.axis("equal")
                 break  # only one series for pie
             elif self.chart_type == "area":
@@ -270,10 +279,13 @@ class ChartElement(BaseElement):
         # Keep a reference — xlsxwriter reads the file lazily on close()
         try:
             sheet.insert_image(  # type: ignore[union-attr]
-                placement.start_row, placement.start_col,
+                placement.start_row,
+                placement.start_col,
                 tmp_path,
-                {"x_scale": self.chart_width / (self.chart_width * 1.0),
-                 "y_scale": self.chart_height / (self.chart_height * 1.0)},
+                {
+                    "x_scale": self.chart_width / (self.chart_width * 1.0),
+                    "y_scale": self.chart_height / (self.chart_height * 1.0),
+                },
             )
             # Add to deferred cleanup so the file exists until workbook is closed
             if not hasattr(workbook, "_chart_temp_files"):

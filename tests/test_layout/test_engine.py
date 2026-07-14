@@ -10,7 +10,7 @@ import pytest
 from excelreport.core.workbook import WorkbookManager
 from excelreport.elements.table import TableElement
 from excelreport.elements.text import SubtitleElement, TitleElement
-from excelreport.layout.engine import LayoutEngine, PlacedElement, SheetLayout
+from excelreport.layout.engine import LayoutEngine, SheetLayout
 from excelreport.theme.presets import THEME_BUSINESS_BLUE
 
 
@@ -64,6 +64,7 @@ class TestSheetLayout:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Data"]
         # margin_top=2, margin_left=1 → title starts at row=2, col=1 (0-indexed)
@@ -115,6 +116,7 @@ class TestLayoutEngine:
         assert temp_xlsx_path.exists()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         assert "Overview" in wb.sheetnames
         assert "Details" in wb.sheetnames
@@ -125,9 +127,7 @@ class TestLayoutEngine:
         result = engine.place(TitleElement("F"), row=2, col=0)
         assert result.logical_row == 2
 
-    def test_build_integration_multiple_elements(
-        self, temp_xlsx_path: Path
-    ) -> None:
+    def test_build_integration_multiple_elements(self, temp_xlsx_path: Path) -> None:
         """Integration: LayoutEngine builds a multi-element report."""
         engine = LayoutEngine(THEME_BUSINESS_BLUE)
         engine.add_sheet("Main")
@@ -142,6 +142,7 @@ class TestLayoutEngine:
         wm.close()
 
         import openpyxl
+
         wb = openpyxl.load_workbook(temp_xlsx_path)
         ws_r = wb["Main"]
         # margin_top=2, margin_left=1, spacing=2

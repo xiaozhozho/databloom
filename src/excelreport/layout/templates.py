@@ -12,7 +12,8 @@ Templates:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Sequence
+from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 import pandas as pd
 
@@ -59,9 +60,7 @@ def layout_summary_detail(
     engine.add_sheet("Overview")
     engine.place_row(TitleElement(title))
     engine.place_row(TableElement(summary_df, title="Summary"))
-    engine.place_row(
-        ChartElement(chart_df, chart_type=chart_type, title=chart_title)
-    )
+    engine.place_row(ChartElement(chart_df, chart_type=chart_type, title=chart_title))
 
     engine.add_sheet("Details")
     engine.place_row(TitleElement(f"{title} — Details"))
@@ -89,9 +88,7 @@ def layout_dashboard(
     types = chart_types or ["column"] * len(chart_dfs)
     titles = chart_titles or [""] * len(chart_dfs)
 
-    for i, (df, ct, ct_title) in enumerate(
-        zip(chart_dfs, types, titles, strict=False)
-    ):
+    for i, (df, ct, ct_title) in enumerate(zip(chart_dfs, types, titles, strict=False)):
         engine.place(
             ChartElement(df, chart_type=ct, title=ct_title),
             row=engine.current_sheet()._next_row,
@@ -118,9 +115,7 @@ def layout_report(
     engine.place_row(TitleElement(title))
     engine.place_row(SubtitleElement(subtitle))
     engine.place_row(ParagraphElement(body_text))
-    engine.place_row(
-        ChartElement(chart_df, chart_type=chart_type, title=chart_title)
-    )
+    engine.place_row(ChartElement(chart_df, chart_type=chart_type, title=chart_title))
     engine.place_row(TableElement(table_df))
     if footer_text:
         engine.place_row(ParagraphElement(footer_text))

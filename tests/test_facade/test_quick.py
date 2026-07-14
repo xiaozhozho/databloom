@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import io
 from pathlib import Path
 
 import pandas as pd
@@ -52,15 +51,28 @@ class TestQuickReport:
 
     def test_all_themes_work(self, df_simple: pd.DataFrame) -> None:
         """Every built-in theme should work with quick_report."""
-        for theme_name in ["business_blue", "fresh_green", "tech_dark",
-                            "warm_orange", "minimal_gray", "classic_white"]:
+        for theme_name in [
+            "business_blue",
+            "fresh_green",
+            "tech_dark",
+            "warm_orange",
+            "minimal_gray",
+            "classic_white",
+        ]:
             result = quick_report(df_simple, theme=theme_name)
             assert len(result) > 0, f"Theme {theme_name} failed"
 
-    @pytest.mark.parametrize("theme_name", [
-        "business_blue", "fresh_green", "tech_dark",
-        "warm_orange", "minimal_gray", "classic_white",
-    ])
+    @pytest.mark.parametrize(
+        "theme_name",
+        [
+            "business_blue",
+            "fresh_green",
+            "tech_dark",
+            "warm_orange",
+            "minimal_gray",
+            "classic_white",
+        ],
+    )
     def test_theme_parametrized(self, df_simple: pd.DataFrame, theme_name: str) -> None:
         result = quick_report(df_simple, theme=theme_name)
         assert isinstance(result, bytes)
@@ -84,11 +96,13 @@ class TestQuickReport:
     def test_from_plan_demo(self, temp_xlsx_path: Path) -> None:
         """Test the exact examples from the README/code-plan."""
         # Example 1: quick report
-        df = pd.DataFrame({
-            "Product": ["Widget A", "Widget B", "Widget C"],
-            "Sales": [15000, 23000, 18000],
-            "Growth": [0.12, 0.08, 0.15],
-        })
+        df = pd.DataFrame(
+            {
+                "Product": ["Widget A", "Widget B", "Widget C"],
+                "Sales": [15000, 23000, 18000],
+                "Growth": [0.12, 0.08, 0.15],
+            }
+        )
         result = quick_report(df)
         assert isinstance(result, bytes)
 

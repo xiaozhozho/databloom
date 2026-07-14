@@ -4,15 +4,15 @@ from __future__ import annotations
 
 import pytest
 
-from excelreport.theme.base import FontSpec, TableStyle, Theme, TitleStyle
+from excelreport.theme.base import Theme
 from excelreport.theme.presets import (
+    _THEME_REGISTRY,
     THEME_BUSINESS_BLUE,
     THEME_CLASSIC_WHITE,
     THEME_FRESH_GREEN,
     THEME_MINIMAL_GRAY,
     THEME_TECH_DARK,
     THEME_WARM_ORANGE,
-    _THEME_REGISTRY,
     get_theme,
     list_themes,
 )
@@ -53,15 +53,11 @@ class TestPresetIntegrity:
 
     @pytest.mark.parametrize("theme", THEMES)
     def test_table_header_font_is_bold(self, theme: Theme) -> None:
-        assert theme.table.header_font.bold is True, (
-            f"Theme {theme.name}: header font not bold"
-        )
+        assert theme.table.header_font.bold is True, f"Theme {theme.name}: header font not bold"
 
     @pytest.mark.parametrize("theme", THEMES)
     def test_title_font_is_bold(self, theme: Theme) -> None:
-        assert theme.title.font.bold is True, (
-            f"Theme {theme.name}: title font not bold"
-        )
+        assert theme.title.font.bold is True, f"Theme {theme.name}: title font not bold"
 
     @pytest.mark.parametrize("theme", THEMES)
     def test_title_is_larger_than_subtitle(self, theme: Theme) -> None:
@@ -169,8 +165,17 @@ class TestGetTheme:
         with pytest.raises(KeyError, match="not found"):
             get_theme("nonexistent_theme")
 
-    @pytest.mark.parametrize("name", ["business_blue", "fresh_green", "tech_dark",
-                                       "warm_orange", "minimal_gray", "classic_white"])
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "business_blue",
+            "fresh_green",
+            "tech_dark",
+            "warm_orange",
+            "minimal_gray",
+            "classic_white",
+        ],
+    )
     def test_all_themes_retrievable(self, name: str) -> None:
         t = get_theme(name)
         assert isinstance(t, Theme)

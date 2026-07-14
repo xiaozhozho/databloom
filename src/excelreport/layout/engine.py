@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 
 from excelreport.core.grid import ElementPlacement, Grid
 from excelreport.elements.base import BaseElement
@@ -99,9 +99,7 @@ class SheetLayout:
 
         return placed
 
-    def place_grid(
-        self, element: BaseElement, row: int, col: int
-    ) -> PlacedElement:
+    def place_grid(self, element: BaseElement, row: int, col: int) -> PlacedElement:
         """Place an element at a specific logical grid position.
 
         Args:

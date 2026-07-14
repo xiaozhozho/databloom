@@ -31,8 +31,8 @@ class TitleElement(BaseElement):
         theme: Theme,
     ) -> None:
         ts = theme.title
-        fmt = getattr(workbook, "format_cache").get(
-            getattr(workbook, "wb"),
+        fmt = workbook.format_cache.get(
+            workbook.wb,
             font_name=ts.font.name,
             font_size=ts.font.size,
             bold=ts.font.bold,
@@ -73,8 +73,8 @@ class SubtitleElement(BaseElement):
         theme: Theme,
     ) -> None:
         ss = theme.subtitle
-        fmt = getattr(workbook, "format_cache").get(
-            getattr(workbook, "wb"),
+        fmt = workbook.format_cache.get(
+            workbook.wb,
             font_name=ss.font.name,
             font_size=ss.font.size,
             bold=ss.font.bold,
@@ -116,8 +116,8 @@ class ParagraphElement(BaseElement):
         theme: Theme,
     ) -> None:
         ps = theme.paragraph
-        fmt = getattr(workbook, "format_cache").get(
-            getattr(workbook, "wb"),
+        fmt = workbook.format_cache.get(
+            workbook.wb,
             font_name=ps.font.name,
             font_size=ps.font.size,
             bold=ps.font.bold,

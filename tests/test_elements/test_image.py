@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-import tempfile
+# Create a tiny valid PNG for testing
+import struct
+import zlib
 from pathlib import Path
 
 import pytest
@@ -12,13 +14,10 @@ from excelreport.core.workbook import WorkbookManager
 from excelreport.elements.image import ImageElement
 from excelreport.theme.presets import THEME_BUSINESS_BLUE
 
-# Create a tiny valid PNG for testing
-import struct
-import zlib
-
 
 def _make_tiny_png() -> bytes:
     """Create a minimal valid PNG file in memory."""
+
     def chunk(chunk_type: bytes, data: bytes) -> bytes:
         c = chunk_type + data
         crc = struct.pack(">I", zlib.crc32(c) & 0xFFFFFFFF)
@@ -56,9 +55,7 @@ class TestImageElement:
     def test_needs_full_width_false(self) -> None:
         assert ImageElement("x.png").needs_full_width() is False
 
-    def test_render_inserts_image(
-        self, temp_xlsx_path: Path, tiny_png_path: Path
-    ) -> None:
+    def test_render_inserts_image(self, temp_xlsx_path: Path, tiny_png_path: Path) -> None:
         wm = WorkbookManager(temp_xlsx_path)
         ws = wm.add_sheet("Img")
         grid = Grid(margin_top=0, margin_left=0, spacing=0)

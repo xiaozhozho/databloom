@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from xlsxwriter.format import Format
-    from xlsxwriter.worksheet import Worksheet
     from xlsxwriter.workbook import Workbook
+    from xlsxwriter.worksheet import Worksheet
 
 
 class FormatCache:

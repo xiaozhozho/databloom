@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from excelreport.theme.base import (
     BorderSpec,
     FillSpec,
