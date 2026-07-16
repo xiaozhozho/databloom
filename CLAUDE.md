@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 `databloom` is a Python 3.10+ package for generating beautifully formatted Excel reports using xlsxwriter, pandas, and matplotlib. It provides two usage levels: a quick one-liner via `quick_report(df)` and a declarative builder API via `Report(...)`.
 
-**Version**: 0.3.0 | **Tests**: 438 | **Themes**: 18 | **Chart types**: 9 | **Coverage**: 79%
+**Version**: 0.3.1 | **Tests**: 524 | **Themes**: 18 | **Chart types**: 9 | **Coverage**: 91%
 
 ## Common Commands
 

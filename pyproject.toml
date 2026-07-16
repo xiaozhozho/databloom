@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "databloom"
-version = "0.3.0"
+version = "0.3.1"
 description = "Beautiful Excel reports from pandas DataFrames — make your data bloom"
 readme = "README.md"
 license = {text = "MIT"}
