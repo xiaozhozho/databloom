@@ -27,7 +27,7 @@ def _chart_category_col(df: pd.DataFrame) -> str:
             return str(col)
         if pd.api.types.is_string_dtype(df[col]):
             return str(col)
-        if pd.api.types.is_categorical_dtype(df[col]):
+        if isinstance(df[col].dtype, pd.CategoricalDtype):
             return str(col)
     # Fallback: first column
     return str(df.columns[0])

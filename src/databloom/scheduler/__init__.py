@@ -39,9 +39,9 @@ from __future__ import annotations
 
 import functools
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
 
 import pandas as pd
 
@@ -132,11 +132,11 @@ class BloomScheduler:
         """
         try:
             import schedule  # noqa: F401
-        except ImportError:
+        except ImportError as err:
             raise ImportError(
                 "schedule is required for BloomScheduler. "
                 "Install it with: pip install databloom[scheduler]"
-            )
+            ) from err
         self._schedule = __import__("schedule")
         self._run_pending_interval = run_pending_interval
         self._job_count: int = 0
@@ -171,22 +171,24 @@ class BloomScheduler:
     def monthly(self, config: ReportConfig, *, day: int = 1, at: str = "09:00") -> None:
         """Schedule a report to run monthly on a specific day.
 
+        Since the ``schedule`` library does not provide native monthly
+        recurring jobs, we schedule a daily check and only invoke the
+        report generator when ``datetime.now().day`` equals *day*.
+
         Args:
             config: Report configuration.
             day: Day of month (1-28).
             at: Time string in ``"HH:MM"`` format (24-hour).
         """
-        self._schedule.every().day.at(at).do(
-            functools.partial(self._generate_report, config=config)
-        )
+        if not 1 <= day <= 28:
+            raise ValueError(
+                f"Monthly day must be 1-28 (got {day}). "
+                f"Days 29-31 are not supported for consistent monthly scheduling."
+            )
+
+        wrapper = functools.partial(self._generate_report_monthly, config=config, day=day)
+        self._schedule.every().day.at(at).do(wrapper)
         self._job_count += 1
-        # Note: schedule doesn't have a native "monthly" — we use
-        # a tag-based workaround. The job runs daily at the given time
-        # and the _generate_monthly wrapper checks the day-of-month.
-        # This is automatically detected for the last-added job.
-        if hasattr(self._schedule, "every"):
-            # Re-register with monthly handler
-            pass  # schedule doesn't have .month — handled in _generate_report
 
     def every_hours(self, config: ReportConfig, *, hours: int = 1) -> None:
         """Schedule a report to run every N hours.
@@ -237,6 +239,13 @@ class BloomScheduler:
             print("\n🌼 BloomScheduler stopped.")
 
     # ── Internal ───────────────────────────────────────────────────────
+
+    def _generate_report_monthly(self, config: ReportConfig, day: int) -> None:
+        """Trigger ``_generate_report`` only on the configured day of month."""
+        from datetime import datetime
+
+        if datetime.now().day == day:
+            self._generate_report(config)
 
     def _generate_report(self, config: ReportConfig) -> None:
         """Execute a single report generation job."""

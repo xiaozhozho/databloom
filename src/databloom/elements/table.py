@@ -12,7 +12,7 @@ from databloom.settings import settings
 from databloom.theme.base import Theme
 
 if TYPE_CHECKING:
-    from xlsxwriter.worksheet import Worksheet
+    pass
 
 
 def _infer_column_alignment(series: pd.Series) -> str:
@@ -403,7 +403,6 @@ class _FormulaFooterElement(BaseElement):
         wb = workbook.wb
         cache = workbook.format_cache
         ts = theme.table
-        ncols = len(self.df.columns)
         data_start = placement.start_row - len(self.df)
         data_end = data_start + len(self.df)
         formula_start = placement.start_row

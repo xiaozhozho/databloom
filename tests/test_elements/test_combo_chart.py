@@ -81,3 +81,90 @@ class TestComboChartElement:
         el.render(wm, ws, grid.place(0, 0, rows=rows, cols=cols), theme)
         wm.close()
         assert temp_xlsx_path.stat().st_size > 0
+
+    def test_render_with_axis_titles(
+        self, combo_df: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        """Tests: Combo chart renders with bar and line axis titles set.
+
+        How: Create a ComboChartElement with both bar_title and line_title,
+             render to a temp workbook, and verify the output file is created.
+        Why: Covers the y_axis["name"] and y2_axis["name"] assignment branches
+             (lines 618, 620) that are skipped when axis titles are empty strings.
+        """
+        from databloom.core.grid import Grid
+        from databloom.core.workbook import WorkbookManager
+        from databloom.theme.presets import get_theme
+
+        theme = get_theme("business_blue")
+        wm = WorkbookManager(temp_xlsx_path)
+        ws = wm.add_sheet("ComboAxis")
+        grid = Grid(margin_top=0, margin_left=0, spacing=0)
+        el = ComboChartElement(
+            combo_df,
+            category_col="Month",
+            bar_cols=["Revenue", "Cost"],
+            line_cols=["Margin"],
+            bar_title="Revenue & Cost (¥)",
+            line_title="Margin (%)",
+            title="Revenue vs Margin",
+        )
+        rows, cols = el.measure(theme)
+        el.render(wm, ws, grid.place(0, 0, rows=rows, cols=cols), theme)
+        wm.close()
+        assert temp_xlsx_path.stat().st_size > 0
+
+    def test_render_combo_no_title(
+        self, combo_df: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        """Tests: Combo chart renders with no overall title.
+
+        How: Create a ComboChartElement without title, render and verify.
+        Why: Covers the branch where chart.set_title is skipped when title is empty.
+        """
+        from databloom.core.grid import Grid
+        from databloom.core.workbook import WorkbookManager
+        from databloom.theme.presets import get_theme
+
+        theme = get_theme("business_blue")
+        wm = WorkbookManager(temp_xlsx_path)
+        ws = wm.add_sheet("ComboNoTitle")
+        grid = Grid(margin_top=0, margin_left=0, spacing=0)
+        el = ComboChartElement(
+            combo_df,
+            category_col="Month",
+            bar_cols=["Revenue", "Cost"],
+            line_cols=["Margin"],
+        )
+        rows, cols = el.measure(theme)
+        el.render(wm, ws, grid.place(0, 0, rows=rows, cols=cols), theme)
+        wm.close()
+        assert temp_xlsx_path.stat().st_size > 0
+
+    def test_render_combo_bar_only(
+        self, combo_df: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        """Tests: Combo chart with only bars (no line series) renders without error.
+
+        How: Create a ComboChartElement without line_cols and render.
+        Why: Covers the branch where the line_chart combine block (line 587-615)
+             is skipped because line_cols is empty.
+        """
+        from databloom.core.grid import Grid
+        from databloom.core.workbook import WorkbookManager
+        from databloom.theme.presets import get_theme
+
+        theme = get_theme("business_blue")
+        wm = WorkbookManager(temp_xlsx_path)
+        ws = wm.add_sheet("ComboBarOnly")
+        grid = Grid(margin_top=0, margin_left=0, spacing=0)
+        el = ComboChartElement(
+            combo_df,
+            category_col="Month",
+            bar_cols=["Revenue", "Cost"],
+            line_cols=[],
+        )
+        rows, cols = el.measure(theme)
+        el.render(wm, ws, grid.place(0, 0, rows=rows, cols=cols), theme)
+        wm.close()
+        assert temp_xlsx_path.stat().st_size > 0

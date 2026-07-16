@@ -49,6 +49,9 @@ output/*.xlsx
 # Dataset pickles (auto-generated)
 src/databloom/data/datasets/*.pkl
 
+# Large pickle files in test data (tracked separately)
+tests/test_data/datasets/*.pkl
+
 # CocoIndex
 .cocoindex_code/
 

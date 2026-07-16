@@ -252,7 +252,7 @@ class Report:
         Returns:
             ``self`` for chaining.
         """
-        from databloom.elements.table import TableElement, _FormulaFooterElement
+        from databloom.elements.table import TableElement
 
         self._engine.place_row(
             TableElement(df, title=title, column_formats=column_formats, freeze_panes=freeze_panes)
@@ -375,6 +375,61 @@ class Report:
         from databloom.elements.text import SpacerElement
 
         self._engine.place_row(SpacerElement(rows=rows, height=height))
+        return self
+
+    def add_sparkline(
+        self,
+        data: pd.DataFrame,
+        *,
+        destination_col: int = 0,
+        sparkline_type: str = "line",
+        low_point: bool = False,
+        high_point: bool = False,
+        first_point: bool = False,
+        last_point: bool = False,
+        negative_points: bool = False,
+        markers: bool = False,
+        line_weight: float = 1.0,
+    ) -> Report:
+        """Add in-cell sparkline mini charts from a numeric DataFrame.
+
+        Each row in *data* becomes one sparkline, placed in the column
+        indicated by *destination_col*.  Sparklines are Excel-native and
+        render as tiny trend charts inside a single cell.
+
+        .. versionadded:: 0.4.0
+
+        Args:
+            data: DataFrame containing **only numeric columns**.
+            destination_col: Zero-based column index for sparkline placement.
+            sparkline_type: One of ``"line"`` (default), ``"column"``, ``"win_loss"``.
+            low_point: Highlight the lowest value point.
+            high_point: Highlight the highest value point.
+            first_point: Highlight the first data point.
+            last_point: Highlight the last data point.
+            negative_points: Highlight negative values.
+            markers: Show data markers (line type only).
+            line_weight: Line weight in points (line type only).
+
+        Returns:
+            ``self`` for chaining.
+        """
+        from databloom.elements.sparkline import SparklineElement
+
+        self._engine.place_row(
+            SparklineElement(
+                data,
+                destination_col=destination_col,
+                sparkline_type=sparkline_type,
+                low_point=low_point,
+                high_point=high_point,
+                first_point=first_point,
+                last_point=last_point,
+                negative_points=negative_points,
+                markers=markers,
+                line_weight=line_weight,
+            )
+        )
         return self
 
     def add_formula_table(
