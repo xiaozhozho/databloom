@@ -2,6 +2,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![English Docs](https://img.shields.io/badge/README-English-blue)](./README.md)
 
 > 一个基于 Python 的 Excel 报表快速生成框架。输入 pandas DataFrame，输出专业排版的 xlsx 文件。让数据在 Excel 中绽放。
 

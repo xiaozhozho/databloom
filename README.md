@@ -2,6 +2,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![中文文档](https://img.shields.io/badge/README-%E4%B8%AD%E6%96%87-red)](./README_CN.md)
 
 A Python framework for generating beautifully formatted Excel reports from pandas DataFrames. Two APIs, one goal: turn your data into presentation-ready spreadsheets in seconds.
 
