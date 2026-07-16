@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from excelreport.core.grid import Grid
-from excelreport.core.workbook import WorkbookManager
-from excelreport.elements.table import TableElement, _column_width, _infer_dtype_format
-from excelreport.theme.presets import THEME_BUSINESS_BLUE, THEME_TECH_DARK
+from databloom.core.grid import Grid
+from databloom.core.workbook import WorkbookManager
+from databloom.elements.table import TableElement, _column_width, _infer_dtype_format
+from databloom.theme.presets import THEME_BUSINESS_BLUE, THEME_TECH_DARK
 
 
 class TestInferDtypeFormat:

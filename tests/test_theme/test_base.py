@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from excelreport.theme.base import (
+from databloom.theme.base import (
     BorderSpec,
     FillSpec,
     FontSpec,

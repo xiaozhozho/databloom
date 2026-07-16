@@ -7,7 +7,78 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from excelreport import quick_report
+from databloom import Report, quick_report
+
+
+class TestReportQuick:
+    """Tests for Report.quick() class method."""
+
+    def test_returns_report_instance(self, df_simple: pd.DataFrame) -> None:
+        report = Report.quick(df_simple)
+        assert isinstance(report, Report)
+
+    def test_build_returns_bytes(self, df_simple: pd.DataFrame) -> None:
+        result = Report.quick(df_simple).build()
+        assert isinstance(result, bytes)
+        assert len(result) > 0
+
+    def test_build_writes_file(
+        self, df_simple: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        result = Report.quick(df_simple).build(temp_xlsx_path)
+        assert result is None
+        assert temp_xlsx_path.exists()
+        assert temp_xlsx_path.stat().st_size > 0
+
+    def test_chained_after_quick(
+        self, df_simple: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        report = Report.quick(df_simple, title="Extended Report")
+        report.add_sheet("Appendix").add_paragraph("Extra content added")
+        report.build(temp_xlsx_path)
+        assert temp_xlsx_path.exists()
+
+    def test_no_dataframes_returns_report(self) -> None:
+        report = Report.quick()
+        assert isinstance(report, Report)
+        result = report.build()
+        assert len(result) > 0
+
+    def test_multiple_dataframes(
+        self, df_kpi: pd.DataFrame, df_time_series: pd.DataFrame, temp_xlsx_path: Path
+    ) -> None:
+        Report.quick(df_kpi, df_time_series, title="Multi DF").build(temp_xlsx_path)
+        assert temp_xlsx_path.exists()
+
+    def test_all_themes_work(self, df_simple: pd.DataFrame) -> None:
+        for theme_name in [
+            "business_blue",
+            "fresh_green",
+            "tech_dark",
+            "warm_orange",
+            "minimal_gray",
+            "classic_white",
+        ]:
+            result = Report.quick(df_simple, theme=theme_name).build()
+            assert len(result) > 0, f"Theme {theme_name} failed"
+
+    def test_from_plan_demo(self, temp_xlsx_path: Path) -> None:
+        # One-liner: build and write in one step
+        df = pd.DataFrame(
+            {
+                "Product": ["Widget A", "Widget B", "Widget C"],
+                "Sales": [15000, 23000, 18000],
+                "Growth": [0.12, 0.08, 0.15],
+            }
+        )
+        Report.quick(df).build(temp_xlsx_path)
+        assert temp_xlsx_path.exists()
+
+        # Extend before building
+        report = Report.quick(df, theme="tech_dark")
+        report.add_sheet("Extra").add_paragraph("More data")
+        result = report.build()
+        assert len(result) > 0
 
 
 class TestQuickReport:

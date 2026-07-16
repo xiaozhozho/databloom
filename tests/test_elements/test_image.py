@@ -9,10 +9,10 @@ from pathlib import Path
 
 import pytest
 
-from excelreport.core.grid import Grid
-from excelreport.core.workbook import WorkbookManager
-from excelreport.elements.image import ImageElement
-from excelreport.theme.presets import THEME_BUSINESS_BLUE
+from databloom.core.grid import Grid
+from databloom.core.workbook import WorkbookManager
+from databloom.elements.image import ImageElement
+from databloom.theme.presets import THEME_BUSINESS_BLUE
 
 
 def _make_tiny_png() -> bytes:

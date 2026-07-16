@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from excelreport.core.grid import Grid
-from excelreport.core.workbook import WorkbookManager
-from excelreport.elements.text import ParagraphElement, SubtitleElement, TitleElement
-from excelreport.theme.presets import THEME_BUSINESS_BLUE, THEME_FRESH_GREEN
+from databloom.core.grid import Grid
+from databloom.core.workbook import WorkbookManager
+from databloom.elements.text import ParagraphElement, SubtitleElement, TitleElement
+from databloom.theme.presets import THEME_BUSINESS_BLUE, THEME_FRESH_GREEN
 
 
 class TestTitleElement:

@@ -7,11 +7,11 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from excelreport.core.workbook import WorkbookManager
-from excelreport.elements.table import TableElement
-from excelreport.elements.text import SubtitleElement, TitleElement
-from excelreport.layout.engine import LayoutEngine, SheetLayout
-from excelreport.theme.presets import THEME_BUSINESS_BLUE
+from databloom.core.workbook import WorkbookManager
+from databloom.elements.table import TableElement
+from databloom.elements.text import SubtitleElement, TitleElement
+from databloom.layout.engine import LayoutEngine, SheetLayout
+from databloom.theme.presets import THEME_BUSINESS_BLUE
 
 
 class TestSheetLayout:

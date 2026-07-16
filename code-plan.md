@@ -20,7 +20,7 @@
 
 ## 2. 项目名称
 
-`excelreport`（暂定）
+`databloom`（暂定）
 
 ---
 
@@ -136,7 +136,7 @@
 
 ```python
 # 方式一：声明式 API
-from excelreport import Report
+from databloom import Report
 
 report = (
     Report(title="月度销售分析", theme="business_blue")
@@ -151,7 +151,7 @@ report = (
 )
 
 # 方式二：智能快速生成
-from excelreport import quick_report
+from databloom import quick_report
 
 quick_report(df, output="./output/report.xlsx")
 ```
@@ -176,7 +176,7 @@ report/
 ├── .gitignore
 ├── CLAUDE.md                   # Claude Code 指引
 ├── src/
-│   └── excelreport/
+│   └── databloom/
 │       ├── __init__.py         # 公共 API 导出
 │       ├── core/
 │       │   ├── __init__.py
@@ -317,6 +317,6 @@ report/
 
 - **单元测试**：每个模块独立测试，mock xlsxwriter 调用
 - **集成测试**：使用临时文件路径，生成真实 xlsx 文件后用 openpyxl/pandas 回读验证
-- **类型检查**：`mypy src/excelreport/` 零错误
+- **类型检查**：`mypy src/databloom/` 零错误
 - **Lint**：`ruff check src/ tests/` 零警告
 - **示例脚本**：手动运行 examples/ 下脚本，检查输出的 xlsx 文件视觉效果

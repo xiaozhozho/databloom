@@ -46,6 +46,9 @@ dmypy.json
 # Output
 output/*.xlsx
 
+# Dataset pickles (auto-generated)
+src/databloom/data/datasets/*.pkl
+
 # CocoIndex
 .cocoindex_code/
 

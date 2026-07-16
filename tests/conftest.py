@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for excelreport tests."""
+"""Shared pytest fixtures for databloom tests."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from excelreport.theme.base import Theme
-from excelreport.theme.presets import (
+from databloom.theme.base import Theme
+from databloom.theme.presets import (
     THEME_BUSINESS_BLUE,
     THEME_CLASSIC_WHITE,
     THEME_FRESH_GREEN,

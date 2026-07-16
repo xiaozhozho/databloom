@@ -6,15 +6,15 @@ from pathlib import Path
 
 import pandas as pd
 
-from excelreport.core.workbook import WorkbookManager
-from excelreport.layout.engine import LayoutEngine
-from excelreport.layout.templates import (
+from databloom.core.workbook import WorkbookManager
+from databloom.layout.engine import LayoutEngine
+from databloom.layout.templates import (
     layout_dashboard,
     layout_report,
     layout_simple,
     layout_summary_detail,
 )
-from excelreport.theme.presets import (
+from databloom.theme.presets import (
     THEME_BUSINESS_BLUE,
     THEME_FRESH_GREEN,
     THEME_MINIMAL_GRAY,

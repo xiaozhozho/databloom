@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 import xlsxwriter
 
-from excelreport.core.workbook import FormatCache, WorkbookManager
+from databloom.core.workbook import FormatCache, WorkbookManager
 
 
 class TestFormatCache:

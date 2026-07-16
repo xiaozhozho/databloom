@@ -7,8 +7,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from excelreport import Report
-from excelreport.theme.presets import THEME_BUSINESS_BLUE, THEME_TECH_DARK
+from databloom import Report
+from databloom.theme.presets import THEME_BUSINESS_BLUE, THEME_TECH_DARK
 
 
 class TestReportBuilder:
